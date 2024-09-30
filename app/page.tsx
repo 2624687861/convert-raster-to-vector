@@ -3,11 +3,11 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [file, setFile] = useState(null);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [result, setResult] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
 
@@ -44,7 +44,7 @@ export default function Home() {
         <input 
           type="file" 
           accept="image/*" 
-          onChange={(e) => setFile(e.target.files[0])} 
+          onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)} 
           className="mb-2"
         />
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Convert</button>
