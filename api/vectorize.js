@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 
+const API_ID = 'vkp6a6288xwqgkn';
+const API_SECRET = '8bfsrfvo09du286s937flvr6rqipu9odqp8utmu5a4qnucb5tp4s';
+
 export async function POST(req) {
   const formData = await req.formData();
   const image = formData.get('image');
@@ -16,7 +19,9 @@ export async function POST(req) {
   try {
     const response = await fetch(vectorizerApiUrl, {
       method: 'POST',
-      // Remove the Authorization header
+      headers: {
+        'Authorization': 'Basic ' + Buffer.from(API_ID + ':' + API_SECRET).toString('base64')
+      },
       body: formData
     });
 
