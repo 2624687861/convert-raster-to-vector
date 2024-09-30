@@ -16,9 +16,7 @@ export async function POST(req) {
   try {
     const response = await fetch(vectorizerApiUrl, {
       method: 'POST',
-      headers: {
-        'Authorization': 'Basic dmtwNmE2Mjg4eHdxZ2tuOjhiZnNyZnZvMDlkdTI4NnM5MzdmbHZyNnJxaXB1OW9kcXA4dXRtdTVhNHFudWNiNXRwNHM='
-      },
+      // Remove the Authorization header
       body: formData
     });
 
