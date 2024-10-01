@@ -174,6 +174,21 @@ export default function Home() {
         )}
         {error && <p className="mt-4 text-center text-sm text-red-600">{error}</p>}
       </div>
+
+      {/* Here is where you add the custom CSS */}
+      <style jsx global>
+      {`
+        .min-h-screen {
+          min-height: auto !important;
+        }
+        .flex {
+          padding-bottom: 0 !important;
+        }
+        .space-y-6 {
+          margin-bottom: 0 !important;
+        }
+      `}
+      </style>
     </div>
   );
 }
