@@ -148,12 +148,14 @@ export default function Home() {
         ) : (
           <div className="space-y-4">
             {result && (
-              <div className="relative w-full h-80 bg-white rounded-lg shadow-md">
+              <div className="relative w-full bg-white rounded-lg shadow-md">
                 <a href={result} target="_blank" rel="noopener noreferrer">
                   <Image 
                     src={result} 
                     alt="Vectorized image" 
-                    layout="fill"
+                    layout="responsive"
+                    width={800} 
+                    height={600}
                     objectFit="contain"
                     className="rounded-lg cursor-pointer"
                   />
