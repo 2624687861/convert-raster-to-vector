@@ -38,40 +38,40 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-start pt-8 px-4">
-      <div className="w-full bg-gray-100 p-8 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center mb-6 text-black">Raster to Vector Converter</h1>
-        <div className="max-w-md mx-auto">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex items-center justify-center w-full">
-              <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <p className="mb-2 text-sm text-gray-500">
-                    <span className="font-semibold">Click to upload</span> or drag and drop
-                  </p>
-                  <p className="text-xs text-gray-500">PNG, JPG (MAX. 800x400px)</p>
-                </div>
-                <input 
-                  id="file-upload" 
-                  type="file" 
-                  accept="image/*" 
-                  onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-                  className="hidden" 
-                />
-              </label>
-            </div>
-            <button 
-              type="submit" 
-              className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg text-sm"
-            >
-              Convert
-            </button>
-          </form>
-        </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+      <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Raster to Vector Converter</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex items-center justify-center w-full">
+            <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+              <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                <p className="mb-2 text-sm text-gray-500">
+                  <span className="font-semibold">Click to upload</span> or drag and drop
+                </p>
+                <p className="text-xs text-gray-500">
+                  Max image size: 3 megapixels, 30MB file size
+                </p>
+              </div>
+              <input 
+                id="file-upload" 
+                type="file" 
+                accept="image/*" 
+                onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+                className="hidden" 
+              />
+            </label>
+          </div>
+          <button 
+            type="submit" 
+            className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg text-sm"
+          >
+            Convert
+          </button>
+        </form>
         {error && <p className="mt-2 text-center text-sm text-red-600">{error}</p>}
         {result && (
           <div className="mt-8">
-            <h2 className="text-xl font-bold mb-2 text-black">Result:</h2>
+            <h2 className="text-xl font-bold mb-2 text-gray-800">Result:</h2>
             <img src={result} alt="Vectorized image" className="max-w-full h-auto rounded-lg shadow-lg" />
           </div>
         )}
