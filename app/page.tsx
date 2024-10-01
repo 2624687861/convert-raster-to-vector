@@ -137,17 +137,19 @@ export default function Home() {
         ) : (
           <div className="space-y-6">
             <div className="relative w-full h-96 bg-white rounded-lg shadow-md">
-              <Image 
-                src={result} 
-                alt="Vectorized image" 
-                layout="fill"
-                objectFit="contain"
-                className="rounded-lg"
-              />
+              <a href={result} target="_blank" rel="noopener noreferrer">
+                <Image 
+                  src={result} 
+                  alt="Vectorized image" 
+                  layout="fill"
+                  objectFit="contain"
+                  className="rounded-lg cursor-pointer"
+                />
+              </a>
             </div>
             <button 
               onClick={handleDownload}
-              className="w-full py-2 px-4 bg-[#4CAF50] hover:bg-[#45a049] text-white font-medium rounded-lg text-sm transition-colors duration-300 mb-2"
+              className="w-full py-2 px-4 bg-black hover:bg-gray-800 text-white font-medium rounded-lg text-sm transition-colors duration-300 mb-2"
             >
               Download
             </button>
