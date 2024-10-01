@@ -63,7 +63,7 @@ export default function Home() {
           </div>
           <button 
             type="submit" 
-            className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg text-sm"
+            className="w-full py-2 px-4 bg-[#F1B241] hover:bg-[#1D1D1D] text-[#1D1D1D] hover:text-[#F1B241] font-medium rounded-lg text-sm transition-colors duration-300"
           >
             Convert
           </button>
