@@ -8,6 +8,11 @@ export default function Home() {
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files ? e.target.files[0] : null;
+    setFile(selectedFile);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
@@ -50,7 +55,7 @@ export default function Home() {
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Raster to Vector Converter</h1>
         {!result ? (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex items-center justify-center w-full">
+            <div className="flex flex-col items-center justify-center w-full">
               <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 border border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <p className="mb-2 text-sm text-gray-500">
@@ -64,10 +69,13 @@ export default function Home() {
                   id="file-upload" 
                   type="file" 
                   accept="image/*" 
-                  onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+                  onChange={handleFileChange}
                   className="hidden" 
                 />
               </label>
+              {file && (
+                <p className="mt-2 text-sm text-green-600">File selected: {file.name}</p>
+              )}
             </div>
             <button 
               type="submit" 
