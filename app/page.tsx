@@ -1,9 +1,42 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Home() {
-  // ... (keep your existing state and handleSubmit function)
+  const [file, setFile] = useState<File | null>(null);
+  const [result, setResult] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch('/api/vectorize', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        setResult(url);
+        setError(null);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || 'An error occurred');
+        setResult(null);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred while processing the image');
+      setResult(null);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-start p-4">
@@ -40,7 +73,15 @@ export default function Home() {
         {result && (
           <div className="mt-8">
             <h2 className="text-xl font-bold mb-2 text-gray-800">Result:</h2>
-            <img src={result} alt="Vectorized image" className="max-w-full h-auto rounded-lg shadow-lg" />
+            <div className="relative w-full h-64">
+              <Image 
+                src={result} 
+                alt="Vectorized image" 
+                layout="fill"
+                objectFit="contain"
+                className="rounded-lg shadow-lg"
+              />
+            </div>
           </div>
         )}
       </div>
