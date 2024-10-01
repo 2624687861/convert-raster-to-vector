@@ -3,47 +3,15 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [file, setFile] = useState<File | null>(null);
-  const [result, setResult] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const response = await fetch('/api/vectorize', {
-        method: 'POST',
-        body: formData,
-      });
-      
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        setResult(url);
-        setError(null);
-      } else {
-        const errorData = await response.json();
-        setError(errorData.error || 'An error occurred');
-        setResult(null);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setError('An error occurred while processing the image');
-      setResult(null);
-    }
-  };
+  // ... (keep your existing state and handleSubmit function)
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center pt-8">
-      <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-start p-4">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Raster to Vector Converter</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex items-center justify-center w-full">
-            <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+            <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50">
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <p className="mb-2 text-sm text-gray-500">
                   <span className="font-semibold">Click to upload</span> or drag and drop
