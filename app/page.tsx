@@ -81,6 +81,17 @@ export default function Home() {
     setError(null);
   };
 
+  const handleDownload = () => {
+    if (result) {
+      const link = document.createElement('a');
+      link.href = result;
+      link.download = 'vectorized_image.svg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-start p-8">
       <div className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-lg">
@@ -134,6 +145,12 @@ export default function Home() {
                 className="rounded-lg"
               />
             </div>
+            <button 
+              onClick={handleDownload}
+              className="w-full py-2 px-4 bg-[#4CAF50] hover:bg-[#45a049] text-white font-medium rounded-lg text-sm transition-colors duration-300 mb-2"
+            >
+              Download
+            </button>
             <button 
               onClick={resetConverter}
               className="w-full py-2 px-4 bg-[#F1B241] hover:bg-[#e0a53e] text-white font-medium rounded-lg text-sm transition-colors duration-300"
