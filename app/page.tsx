@@ -1,16 +1,44 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Image from 'next/image';
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDrag = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handleDragIn = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragOut = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files ? e.target.files[0] : null;
-    setFile(selectedFile);
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,8 +83,14 @@ export default function Home() {
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Raster to Vector Converter</h1>
         {!result ? (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex flex-col items-center justify-center w-full">
-              <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 border border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+            <div 
+              className={`flex items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer ${isDragging ? 'bg-gray-100' : 'bg-gray-50'} hover:bg-gray-100`}
+              onDragEnter={handleDragIn}
+              onDragLeave={handleDragOut}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+            >
+              <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 cursor-pointer">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <p className="mb-2 text-sm text-gray-500">
                     <span className="font-semibold">Click to upload</span> or drag and drop
@@ -73,10 +107,8 @@ export default function Home() {
                   className="hidden" 
                 />
               </label>
-              {file && (
-                <p className="mt-2 text-sm text-green-600">File selected: {file.name}</p>
-              )}
             </div>
+            {file && <p className="text-sm text-green-600">File selected: {file.name}</p>}
             <button 
               type="submit" 
               className="w-full py-2 px-4 bg-[#F1B241] hover:bg-[#e0a53e] text-white font-medium rounded-lg text-sm transition-colors duration-300"
