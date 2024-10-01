@@ -8,7 +8,7 @@ export default function Home() {
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [dragCounter, setDragCounter] = useState(0);  // Add drag counter
+  const [dragCounter, setDragCounter] = useState(0);  
   const [isConverting, setIsConverting] = useState(false);
 
   const handleDrag = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -19,9 +19,9 @@ export default function Home() {
   const handleDragIn = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setDragCounter((prevCounter) => prevCounter + 1); // Increment drag counter
+    setDragCounter((prevCounter) => prevCounter + 1);
     if (dragCounter === 0) {
-      setIsDragging(true);  // Show highlight only when drag enters
+      setIsDragging(true);
     }
   }, [dragCounter]);
 
@@ -31,7 +31,7 @@ export default function Home() {
     setDragCounter((prevCounter) => {
       const newCounter = prevCounter - 1;
       if (newCounter === 0) {
-        setIsDragging(false);  // Remove highlight when all drag events leave
+        setIsDragging(false);
       }
       return newCounter;
     });
@@ -40,8 +40,8 @@ export default function Home() {
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(false);  // Ensure to remove highlight on drop
-    setDragCounter(0);  // Reset drag counter
+    setIsDragging(false);
+    setDragCounter(0);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setFile(e.dataTransfer.files[0]);
     }
@@ -104,9 +104,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-start p-8">
+    <div className="bg-white flex flex-col items-center justify-start p-8">
       <div className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-lg">
-        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Raster to Vector Converter</h1>
+        <h1 className="text-2xl font-bold text-center mb-4 text-gray-800">Raster to Vector Converter</h1>
         {!result ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div 
@@ -119,7 +119,7 @@ export default function Home() {
               onDrop={handleDrop}
             >
               <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-32 cursor-pointer">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                <div className="flex flex-col items-center justify-center pt-4 pb-4">
                   <p className="mb-2 text-sm text-gray-500">
                     <span className="font-semibold">Click to upload</span> or drag and drop
                   </p>
@@ -146,8 +146,8 @@ export default function Home() {
             </button>
           </form>
         ) : (
-          <div className="space-y-6">
-            <div className="relative w-full h-96 bg-white rounded-lg shadow-md">
+          <div className="space-y-4">
+            <div className="relative w-full h-80 bg-white rounded-lg shadow-md">
               <a href={result} target="_blank" rel="noopener noreferrer">
                 <Image 
                   src={result} 
@@ -160,7 +160,7 @@ export default function Home() {
             </div>
             <button 
               onClick={handleDownload}
-              className="w-full py-2 px-4 bg-black hover:bg-gray-800 text-white font-medium rounded-lg text-sm transition-colors duration-300 mb-2"
+              className="w-full py-2 px-4 bg-black hover:bg-gray-800 text-white font-medium rounded-lg text-sm transition-colors duration-300"
             >
               Download
             </button>
