@@ -8,6 +8,7 @@ export default function Home() {
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [dragCounter, setDragCounter] = useState(0);  // Add drag counter
   const [isConverting, setIsConverting] = useState(false);
 
   const handleDrag = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -18,19 +19,29 @@ export default function Home() {
   const handleDragIn = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(true);
-  }, []);
+    setDragCounter((prevCounter) => prevCounter + 1); // Increment drag counter
+    if (dragCounter === 0) {
+      setIsDragging(true);  // Show highlight only when drag enters
+    }
+  }, [dragCounter]);
 
   const handleDragOut = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(false);
+    setDragCounter((prevCounter) => {
+      const newCounter = prevCounter - 1;
+      if (newCounter === 0) {
+        setIsDragging(false);  // Remove highlight when all drag events leave
+      }
+      return newCounter;
+    });
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(false);
+    setIsDragging(false);  // Ensure to remove highlight on drop
+    setDragCounter(0);  // Reset drag counter
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setFile(e.dataTransfer.files[0]);
     }
