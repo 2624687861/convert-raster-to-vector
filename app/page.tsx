@@ -8,6 +8,7 @@ export default function Home() {
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isConverting, setIsConverting] = useState(false);
 
   const handleDrag = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -45,6 +46,7 @@ export default function Home() {
     e.preventDefault();
     if (!file) return;
 
+    setIsConverting(true);
     const formData = new FormData();
     formData.append('image', file);
 
@@ -68,6 +70,8 @@ export default function Home() {
       console.error('Error:', error);
       setError('An error occurred while processing the image');
       setResult(null);
+    } finally {
+      setIsConverting(false);
     }
   };
 
@@ -84,7 +88,9 @@ export default function Home() {
         {!result ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div 
-              className={`flex items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer ${isDragging ? 'bg-gray-100' : 'bg-gray-50'} hover:bg-gray-100`}
+              className={`flex items-center justify-center w-full border-2 border-dashed rounded-lg cursor-pointer transition-colors duration-300 ${
+                isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
+              }`}
               onDragEnter={handleDragIn}
               onDragLeave={handleDragOut}
               onDragOver={handleDrag}
@@ -112,8 +118,9 @@ export default function Home() {
             <button 
               type="submit" 
               className="w-full py-2 px-4 bg-[#F1B241] hover:bg-[#e0a53e] text-white font-medium rounded-lg text-sm transition-colors duration-300"
+              disabled={isConverting}
             >
-              Convert
+              {isConverting ? 'Conversion in progress...' : 'Convert'}
             </button>
           </form>
         ) : (
