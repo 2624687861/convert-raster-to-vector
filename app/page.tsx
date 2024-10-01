@@ -147,17 +147,19 @@ export default function Home() {
           </form>
         ) : (
           <div className="space-y-4">
-            <div className="relative w-full h-80 bg-white rounded-lg shadow-md">
-              <a href={result} target="_blank" rel="noopener noreferrer">
-                <Image 
-                  src={result} 
-                  alt="Vectorized image" 
-                  layout="fill"
-                  objectFit="contain"
-                  className="rounded-lg cursor-pointer"
-                />
-              </a>
-            </div>
+            {result && (
+              <div className="relative w-full h-80 bg-white rounded-lg shadow-md">
+                <a href={result} target="_blank" rel="noopener noreferrer">
+                  <Image 
+                    src={result} 
+                    alt="Vectorized image" 
+                    layout="fill"
+                    objectFit="contain"
+                    className="rounded-lg cursor-pointer"
+                  />
+                </a>
+              </div>
+            )}
             <button 
               onClick={handleDownload}
               className="w-full py-2 px-4 bg-black hover:bg-gray-800 text-white font-medium rounded-lg text-sm transition-colors duration-300"
