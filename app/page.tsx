@@ -39,8 +39,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start py-8 px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-start p-8">
+      <div className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Raster to Vector Converter</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex items-center justify-center w-full">
@@ -73,13 +73,13 @@ export default function Home() {
         {result && (
           <div className="mt-8">
             <h2 className="text-xl font-bold mb-4 text-gray-800">Result:</h2>
-            <div className="relative w-full h-64">
+            <div className="relative w-full h-64 bg-white rounded-lg shadow-md">
               <Image 
                 src={result} 
                 alt="Vectorized image" 
                 layout="fill"
                 objectFit="contain"
-                className="rounded-lg shadow-md"
+                className="rounded-lg"
               />
             </div>
           </div>
