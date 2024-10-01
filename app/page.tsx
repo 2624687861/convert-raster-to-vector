@@ -8,7 +8,7 @@ export default function Home() {
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [dragCounter, setDragCounter] = useState(0);
+  const [dragCounter, setDragCounter] = useState(0);  // Add drag counter
   const [isConverting, setIsConverting] = useState(false);
 
   const handleDrag = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -19,9 +19,9 @@ export default function Home() {
   const handleDragIn = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setDragCounter((prevCounter) => prevCounter + 1);
+    setDragCounter((prevCounter) => prevCounter + 1); // Increment drag counter
     if (dragCounter === 0) {
-      setIsDragging(true);
+      setIsDragging(true);  // Show highlight only when drag enters
     }
   }, [dragCounter]);
 
@@ -31,7 +31,7 @@ export default function Home() {
     setDragCounter((prevCounter) => {
       const newCounter = prevCounter - 1;
       if (newCounter === 0) {
-        setIsDragging(false);
+        setIsDragging(false);  // Remove highlight when all drag events leave
       }
       return newCounter;
     });
@@ -40,8 +40,8 @@ export default function Home() {
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(false);
-    setDragCounter(0);
+    setIsDragging(false);  // Ensure to remove highlight on drop
+    setDragCounter(0);  // Reset drag counter
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setFile(e.dataTransfer.files[0]);
     }
@@ -66,7 +66,7 @@ export default function Home() {
         method: 'POST',
         body: formData,
       });
-
+      
       if (response.ok) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
@@ -104,12 +104,12 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white flex flex-col items-center justify-start p-8">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-start p-8">
       <div className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Raster to Vector Converter</h1>
         {!result ? (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div
+            <div 
               className={`flex items-center justify-center w-full border-2 border-dashed rounded-lg cursor-pointer transition-colors duration-300 ${
                 isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
               }`}
@@ -132,13 +132,13 @@ export default function Home() {
                   type="file" 
                   accept="image/*" 
                   onChange={handleFileChange}
-                  className="hidden"
+                  className="hidden" 
                 />
               </label>
             </div>
             {file && <p className="text-sm text-green-600">File selected: {file.name}</p>}
-            <button
-              type="submit"
+            <button 
+              type="submit" 
               className="w-full py-2 px-4 bg-[#F1B241] hover:bg-[#e0a53e] text-white font-medium rounded-lg text-sm transition-colors duration-300"
               disabled={isConverting}
             >
@@ -147,24 +147,24 @@ export default function Home() {
           </form>
         ) : (
           <div className="space-y-6">
-            <div className="relative w-full bg-white rounded-lg shadow-md">
+            <div className="relative w-full h-96 bg-white rounded-lg shadow-md">
               <a href={result} target="_blank" rel="noopener noreferrer">
-                <Image
-                  src={result}
-                  alt="Vectorized image"
+                <Image 
+                  src={result} 
+                  alt="Vectorized image" 
                   layout="fill"
                   objectFit="contain"
                   className="rounded-lg cursor-pointer"
                 />
               </a>
             </div>
-            <button
+            <button 
               onClick={handleDownload}
               className="w-full py-2 px-4 bg-black hover:bg-gray-800 text-white font-medium rounded-lg text-sm transition-colors duration-300 mb-2"
             >
               Download
             </button>
-            <button
+            <button 
               onClick={resetConverter}
               className="w-full py-2 px-4 bg-[#F1B241] hover:bg-[#e0a53e] text-white font-medium rounded-lg text-sm transition-colors duration-300"
             >
@@ -174,19 +174,6 @@ export default function Home() {
         )}
         {error && <p className="mt-4 text-center text-sm text-red-600">{error}</p>}
       </div>
-
-      {/* Dynamic height style */}
-      <style jsx global>{`
-        .min-h-screen {
-          min-height: auto !important;
-        }
-        .flex {
-          padding-bottom: 0 !important;
-        }
-        .space-y-6 {
-          margin-bottom: 0 !important;
-        }
-      `}</style>
     </div>
   );
 }
