@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-const API_ID = 'vkp6a6288xwqgkn';
-const API_SECRET = '8bfsrfvo09du286s937flvr6rqipu9odqp8utmu5a4qnucb5tp4s';
+const API_ID = 'vk237hgpmwkt3cb';
+const API_SECRET = 'dppou3qr9kj1dkvk6m0el874n9qk0ipv0972ls5v469p5u587sgf';
 
 export async function POST(req) {
   const formData = await req.formData();
